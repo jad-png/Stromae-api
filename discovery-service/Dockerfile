@@ -1,4 +1,3 @@
-# Dockerfile for Discovery Service
 FROM maven:3.8-eclipse-temurin-17 as builder
 WORKDIR /app
 COPY pom.xml .
