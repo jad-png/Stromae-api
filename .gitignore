@@ -1,0 +1,64 @@
+.DS_Store
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom-backup.xml
+release.properties
+.flattened-pom.xml
+
+# IDE
+.settings/
+.classpath
+.project
+.metadata/
+bin/
+*.class
+
+# Spring Boot
+*.log
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
+
+# Operating System
+Thumbs.db
+.DS_Store
+
+# Local development
+*.properties.local
+*.yml.local
+application-local.yml
+
+# Databases
+*.sql.bak
+data/
+
+# Docker
+docker-compose.override.yml
+
+# Git
+.git/
+
+# Node (if using npm)
+node_modules/
+npm-debug.log
+
+# Gradle (if applicable)
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# Environment files
+.env
+.env.local
+.env.*.local
