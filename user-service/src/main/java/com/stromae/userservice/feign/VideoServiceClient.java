@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
 
-@FeignClient(name = "video-service")
+@FeignClient(name = "video-service", fallbackFactory = VideoServiceClientFallbackFactory.class)
 public interface VideoServiceClient {
 
     @GetMapping("/api/videos/{id}")
