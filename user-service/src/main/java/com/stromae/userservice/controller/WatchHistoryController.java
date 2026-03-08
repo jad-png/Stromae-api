@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class WatchHistoryController {
     private final WatchHistoryService watchHistoryService;
 
     @PostMapping
-    public ResponseEntity<WatchHistoryDTO> saveWatchHistory(@RequestBody WatchHistoryDTO watchHistoryDTO) {
+    public ResponseEntity<WatchHistoryDTO> saveWatchHistory(@Valid @RequestBody WatchHistoryDTO watchHistoryDTO) {
         log.info("Saving watch history for user {} and video {}", watchHistoryDTO.getUserId(), watchHistoryDTO.getVideoId());
         WatchHistoryDTO savedHistory = watchHistoryService.saveWatchHistory(watchHistoryDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedHistory);

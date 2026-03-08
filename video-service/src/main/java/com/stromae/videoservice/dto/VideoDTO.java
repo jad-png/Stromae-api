@@ -20,7 +20,7 @@ public class VideoDTO {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(groups = OnCreate.class)
     @Size(max = 255)
     private String title;
 
@@ -30,17 +30,17 @@ public class VideoDTO {
     private String thumbnailUrl;
     private String trailerUrl;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class)
     @Min(1)
     private Integer duration;
 
     @Min(1888)
     private Integer releaseYear;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class)
     private VideoType type;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class)
     private VideoCategory category;
 
     @Min(0)

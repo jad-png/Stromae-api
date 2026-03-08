@@ -72,8 +72,8 @@ public class WatchHistoryService {
 
         Long totalVideosWatched = watchHistoryRepository.countDistinctVideosByUserId(userId);
         Long totalCompletedVideos = watchHistoryRepository.countCompletedVideosByUserId(userId);
-        Long totalTimeWatched = watchHistoryRepository.sumProgressTimeByUserId(userId) != null ?
-                watchHistoryRepository.sumProgressTimeByUserId(userId) : 0L;
+        Long sumProgressTime = watchHistoryRepository.sumProgressTimeByUserId(userId);
+        Long totalTimeWatched = sumProgressTime != null ? sumProgressTime : 0L;
 
         Double averageCompletionRate = totalVideosWatched > 0 ?
                 (double) totalCompletedVideos / totalVideosWatched * 100 : 0.0;

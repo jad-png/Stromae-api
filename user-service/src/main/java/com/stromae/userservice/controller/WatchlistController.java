@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class WatchlistController {
     private final WatchlistService watchlistService;
 
     @PostMapping
-    public ResponseEntity<WatchlistDTO> addToWatchlist(@RequestBody WatchlistDTO watchlistDTO) {
+    public ResponseEntity<WatchlistDTO> addToWatchlist(@Valid @RequestBody WatchlistDTO watchlistDTO) {
         log.info("Adding video {} to watchlist for user {}", watchlistDTO.getVideoId(), watchlistDTO.getUserId());
         WatchlistDTO addedItem = watchlistService.addToWatchlist(watchlistDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedItem);

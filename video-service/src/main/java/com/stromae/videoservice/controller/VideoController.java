@@ -1,14 +1,16 @@
 package com.stromae.videoservice.controller;
 
+import com.stromae.videoservice.dto.OnCreate;
+import com.stromae.videoservice.dto.OnUpdate;
 import com.stromae.videoservice.dto.VideoDTO;
 import com.stromae.videoservice.entity.VideoCategory;
 import com.stromae.videoservice.entity.VideoType;
 import com.stromae.videoservice.service.VideoService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class VideoController {
     private final VideoService videoService;
 
     @PostMapping
-    public ResponseEntity<VideoDTO> createVideo(@Valid @RequestBody VideoDTO videoDTO) {
+    public ResponseEntity<VideoDTO> createVideo(@Validated(OnCreate.class) @RequestBody VideoDTO videoDTO) {
         log.info("Creating video: {}", videoDTO.getTitle());
         VideoDTO createdVideo = videoService.createVideo(videoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdVideo);
@@ -43,7 +45,7 @@ public class VideoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VideoDTO> updateVideo(@PathVariable Long id, @Valid @RequestBody VideoDTO videoDTO) {
+    public ResponseEntity<VideoDTO> updateVideo(@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody VideoDTO videoDTO) {
         log.info("Updating video with id: {}", id);
         VideoDTO updatedVideo = videoService.updateVideo(id, videoDTO);
         return ResponseEntity.ok(updatedVideo);
