@@ -1,0 +1,362 @@
+{
+  "info": {
+    "name": "Stromae Video Streaming API",
+    "description": "Collection for testing the Stromae microservices video streaming API",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/auth/login",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Validate Token",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/auth/validate?token={{token}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "auth", "validate"],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Video Service",
+      "item": [
+        {
+          "name": "Create Video",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Inception\",\n  \"description\": \"A mind-bending science fiction masterpiece\",\n  \"thumbnailUrl\": \"https://example.com/inception.jpg\",\n  \"trailerUrl\": \"https://www.youtube.com/embed/YoHD_XwstME\",\n  \"duration\": 8880,\n  \"releaseYear\": 2010,\n  \"type\": \"FILM\",\n  \"category\": \"SCIENCE_FICTION\",\n  \"rating\": 8.8,\n  \"director\": \"Christopher Nolan\",\n  \"cast\": \"Leonardo DiCaprio, Marion Cotillard\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos"]
+            }
+          }
+        },
+        {
+          "name": "Get All Videos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos"]
+            }
+          }
+        },
+        {
+          "name": "Get Video by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Video",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Inception - Updated\",\n  \"rating\": 9.0\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Video",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Videos by Category",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos/category/ACTION",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos", "category", "ACTION"]
+            }
+          }
+        },
+        {
+          "name": "Search Videos by Title",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/videos/search/title?query=Inception",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "videos", "search", "title"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "Inception"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Service",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/users",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/users",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/users/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_updated\",\n  \"password\": \"newpassword456\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/users/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "users", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watchlist Service",
+      "item": [
+        {
+          "name": "Add to Watchlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"videoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/watchlist",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "Get User Watchlist",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/watchlist/user/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "watchlist", "user", "1"]
+            }
+          }
+        },
+        {
+          "name": "Remove from Watchlist",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/watchlist/1/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "watchlist", "1", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watch History Service",
+      "item": [
+        {
+          "name": "Save Watch History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"videoId\": 1,\n  \"progressTime\": 3600,\n  \"completed\": false\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/api/watch-history",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "watch-history"]
+            }
+          }
+        },
+        {
+          "name": "Get User Watch History",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/watch-history/user/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "watch-history", "user", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Viewing Statistics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/watch-history/statistics/user/1",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "watch-history", "statistics", "user", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Monitoring Service",
+      "item": [
+        {
+          "name": "Get Health Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/monitoring/health",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "monitoring", "health"]
+            }
+          }
+        },
+        {
+          "name": "Get System Metrics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gatewayUrl}}/api/monitoring/metrics",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["api", "monitoring", "metrics"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "gatewayUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
