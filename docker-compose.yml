@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  # Config Server
+  config-server:
+    build:
+      context: ./config-service
+      dockerfile: Dockerfile
+    container_name: stromae-config-server
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - stromae-network
+    volumes:
+      - /tmp/stromae-config:/config
+
+  # Eureka Discovery Server
+  discovery-server:
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    container_name: stromae-discovery-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER_URL: http://config-server:8888
+    networks:
+      - stromae-network
+    restart: on-failure
+
+  # MySQL for Video Service
+  mysql-video:
+    image: mysql:8.0
+    container_name: stromae-mysql-video
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stromae_video_db
+      MYSQL_USER: video_user
+      MYSQL_PASSWORD: video_pass
+    ports:
+      - "3307:3306"
+    networks:
+      - stromae-network
+    volumes:
+      - mysql-video-data:/var/lib/mysql
+
+  # MySQL for User Service
+  mysql-user:
+    image: mysql:8.0
+    container_name: stromae-mysql-user
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stromae_user_db
+      MYSQL_USER: user_user
+      MYSQL_PASSWORD: user_pass
+    ports:
+      - "3308:3306"
+    networks:
+      - stromae-network
+    volumes:
+      - mysql-user-data:/var/lib/mysql
+
+  # Video Service
+  video-service:
+    build:
+      context: ./video-service
+      dockerfile: Dockerfile
+    container_name: stromae-video-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery-server
+      - config-server
+      - mysql-video
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-video:3306/stromae_video_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - stromae-network
+    restart: on-failure
+
+  # User Service
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: stromae-user-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-server
+      - config-server
+      - mysql-user
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-user:3306/stromae_user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - stromae-network
+    restart: on-failure
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    container_name: stromae-gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+      - config-server
+      - video-service
+      - user-service
+      - security-service
+      - monitoring-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
+    networks:
+      - stromae-network
+    restart: on-failure
+
+networks:
+  stromae-network:
+    driver: bridge
+
+volumes:
+  mysql-video-data:
+  mysql-user-data:
